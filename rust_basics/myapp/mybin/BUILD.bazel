@@ -1,0 +1,8 @@
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_binary")
+
+rust_binary(
+    name = "mybin",
+    srcs = ["main.rs"],
+    deps = ["//myapp/mylib"],
+    edition = "2018",
+)

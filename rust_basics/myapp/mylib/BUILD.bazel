@@ -1,0 +1,17 @@
+load("@io_bazel_rules_rust//rust:rust.bzl", "rust_library")
+
+rust_library(
+    name = "myapp_mylib",  # This becomes the crate's name.
+    crate_root = "lib.rs",
+    srcs = [
+        "lib.rs",
+        "mymod/mod.rs",
+    ],
+    edition = "2018",
+)
+
+alias(
+    name = "mylib",
+    actual = ":myapp_mylib",
+    visibility = ["//visibility:public"],
+)
