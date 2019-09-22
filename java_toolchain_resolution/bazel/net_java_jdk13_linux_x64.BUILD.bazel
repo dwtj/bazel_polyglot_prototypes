@@ -1,0 +1,55 @@
+filegroup(
+    name = "all_files",
+    srcs = glob(["**/*"]),
+)
+
+java_runtime(
+    name = "java_runtime",
+    srcs = [":all_files"],
+    java = ":bin/java",
+    java_home = ".",
+)
+
+toolchain(
+    name = "java_runtime_toolchain",
+    exec_compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+    target_compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+    toolchain = ":java_runtime",
+    toolchain_type = "@bazel_tools//tools/jdk:runtime_toolchain_type",
+    visibility = ["//visibility:public"],
+)
+cc_binary(
+    name = "do_nothing",
+)
+
+java_toolchain(
+    name = "java_compiler",
+    forcibly_disable_header_compilation = True,
+    genclass = [":do_nothing"],
+    ijar = [":do_nothing"],
+    javabuilder = [":do_nothing"],
+    singlejar = [":do_nothing"],
+    source_version = "13",
+    target_version = "13",
+)
+
+toolchain(
+    name = "java_compiler_toolchain",
+    exec_compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+    target_compatible_with = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+    toolchain = ":java_compiler",
+    toolchain_type = "@bazel_tools//tools/jdk:toolchain_type",
+    visibility = ["//visibility:public"],
+)

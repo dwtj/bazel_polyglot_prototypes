@@ -1,0 +1,4 @@
+bazel-bin
+bazel-java_toolchain_resolution
+bazel-out
+bazel-testlogs

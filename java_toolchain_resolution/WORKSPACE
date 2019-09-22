@@ -1,0 +1,21 @@
+workspace(name = "java_toolchain_resolution")
+
+# RULES FOR GETTING EXTERNAL DEPENDENCIES #####################################
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# OPENJDK #####################################################################
+
+http_archive(
+    name = "net_java_jdk13_linux_x64",
+    sha256 = "5f547b8f0ffa7da517223f6f929a5055d749776b1878ccedbd6cc1334f4d6f4d",
+    strip_prefix = "jdk-13",
+    url = "https://download.java.net/java/GA/jdk13/5b8a42f3905b406298b72d750b6919f6/33/GPL/openjdk-13_linux-x64_bin.tar.gz",
+    build_file = "@//:bazel/net_java_jdk13_linux_x64.BUILD.bazel",
+)
+
+register_toolchains(
+    "@net_java_jdk13_linux_x64//:java_runtime_toolchain",
+    "@net_java_jdk13_linux_x64//:java_compiler_toolchain",
+)
+
