@@ -1,0 +1,27 @@
+load(
+    "@rules_cc//cc:defs.bzl",
+    "cc_library",
+    "cc_binary",
+    "cc_test",
+)
+
+cc_library(
+    name = "hello",
+    srcs = ["hello.cpp"],
+    hdrs = ["hello.hpp"],
+)
+
+cc_binary(
+    name = "myapp",
+    srcs = ["main.cpp"],
+    deps = [":hello"],
+)
+
+cc_test(
+    name = "hello_test",
+    srcs = ["hello_test.cpp"],
+    deps = [
+        ":hello",
+        "@gtest//:gtest",
+    ],
+)
