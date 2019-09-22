@@ -1,0 +1,4 @@
+bazel-rust_bindgen
+bazel-bin
+bazel-out
+bazel-testlogs 
