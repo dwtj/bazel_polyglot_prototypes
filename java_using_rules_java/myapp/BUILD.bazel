@@ -1,0 +1,26 @@
+load(
+    "@rules_java//java:defs.bzl",
+    "java_library",
+    "java_binary",
+    "java_test",
+)
+
+java_library(
+    name = "Hello",
+    srcs = ["Hello.java"],
+)
+
+java_binary(
+    name = "myapp",
+    main_class = "myapp.Main",
+    srcs = ["Main.java"],
+    deps = [":Hello"],
+)
+
+java_test(
+    name = "HelloTest",
+    main_class = "myapp.HelloTest",
+    test_class = "myapp.HelloTest",
+    srcs = ["HelloTest.java"],
+    deps = [":Hello"],
+)
