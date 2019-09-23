@@ -18,6 +18,15 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_cc/archive/{}.tar.gz".format(RULES_CC_MASTER_COMMIT)],
 )
 
+# CONFIGURE BAZEL_SKYLIB ######################################################
+
+# `@io_bazel_rules_rust` depends upon this starlark helper library.
+http_archive(
+    name = "bazel_skylib",
+    url = "https://github.com/bazelbuild/bazel-skylib/releases/download/0.9.0/bazel_skylib-0.9.0.tar.gz",
+    sha256 = "1dde365491125a3db70731e25658dfdd3bc5dbdfd11b840b3e987ecf043c7ca0",
+)
+
 # CONFIGURE RULES RUST ########################################################
 
 # Note: As of 2019-09-02, the `rules_rust` README says that the project is under
