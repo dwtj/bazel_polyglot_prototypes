@@ -1,0 +1,21 @@
+cc_library(
+    name = "jvmti_hdrs",
+    hdrs = ["include/jvmti.h"],
+    deps = [":jni_hdrs"],
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "jni_hdrs",
+    hdrs = ["include/jni.h"],
+    deps = [":jni_machine_dependent_hdrs"],
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "jni_machine_dependent_hdrs",
+    hdrs = ["include/linux/jni_md.h"],
+    strip_include_prefix = "include/linux",
+)

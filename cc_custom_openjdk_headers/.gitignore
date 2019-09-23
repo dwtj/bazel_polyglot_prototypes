@@ -1,0 +1,4 @@
+bazel-cc_custom_openjdk_headers
+bazel-bin
+bazel-out
+bazel-testlogs

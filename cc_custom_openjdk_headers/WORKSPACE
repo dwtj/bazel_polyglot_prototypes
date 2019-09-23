@@ -1,0 +1,29 @@
+workspace(name = "cc_custom_openjdk_headers")
+
+# RULES FOR GETTING EXTERNAL DEPENDENCIES #####################################
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# CONFIGURE RULES_CC ##########################################################
+
+# Master Commit as of 2019-09-19:
+RULES_CC_MASTER_COMMIT = "42ed56d8acbd9938b4ee8b2066d2c4c898a22504"
+
+RULES_CC_MASTER_SHA256 = "7c574de35acdbfd333eb3f8eb05990b377ef8dc2303664f4ddd6cc83bbf4a30a"
+
+http_archive(
+    name = "rules_cc",
+    sha256 = RULES_CC_MASTER_SHA256,
+    strip_prefix = "rules_cc-{}".format(RULES_CC_MASTER_COMMIT),
+    urls = ["https://github.com/bazelbuild/rules_cc/archive/{}.tar.gz".format(RULES_CC_MASTER_COMMIT)],
+)
+
+# OPENJDK #####################################################################
+
+http_archive(
+    name = "net_java_jdk13_linux_x64",
+    sha256 = "5f547b8f0ffa7da517223f6f929a5055d749776b1878ccedbd6cc1334f4d6f4d",
+    strip_prefix = "jdk-13",
+    url = "https://download.java.net/java/GA/jdk13/5b8a42f3905b406298b72d750b6919f6/33/GPL/openjdk-13_linux-x64_bin.tar.gz",
+    build_file = "@//:bazel/net_java_jdk13_linux_x64.BUILD.bazel",
+)
