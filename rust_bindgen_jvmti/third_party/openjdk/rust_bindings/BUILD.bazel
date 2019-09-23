@@ -1,0 +1,19 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+# NB(dwtj): The wrapper's header uses a `.hpp` extension so that bindgen treats
+#  it as C++. The C++ JVMTI interface makes for better Rust bindings.
+cc_library(
+    name = "jvmti_wrapper",
+    hdrs = ["jvmti_wrapper.hpp"],
+    deps = ["//third_party/openjdk:jvmti_headers"],
+)
+
+load("@io_bazel_rules_rust//bindgen:bindgen.bzl", "rust_bindgen_library")
+
+rust_bindgen_library(
+    name = "jvmti",
+    cc_lib = ":jvmti_wrapper",
+    header = "jvmti_wrapper.hpp",
+    rustc_flags = ["--allow", "warnings"],  # Suppress all warnings.
+    visibility = ["//visibility:public"],
+)

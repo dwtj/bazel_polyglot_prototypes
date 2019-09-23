@@ -1,0 +1,49 @@
+workspace(name = "rust_bindgen_jvmti")
+
+# RULES FOR GETTING EXTERNAL DEPENDENCIES #####################################
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# CONFIGURE RULES_CC ##########################################################
+
+# Master Commit as of 2019-09-19:
+RULES_CC_MASTER_COMMIT = "42ed56d8acbd9938b4ee8b2066d2c4c898a22504"
+
+RULES_CC_MASTER_SHA256 = "7c574de35acdbfd333eb3f8eb05990b377ef8dc2303664f4ddd6cc83bbf4a30a"
+
+http_archive(
+    name = "rules_cc",
+    sha256 = RULES_CC_MASTER_SHA256,
+    strip_prefix = "rules_cc-{}".format(RULES_CC_MASTER_COMMIT),
+    urls = ["https://github.com/bazelbuild/rules_cc/archive/{}.tar.gz".format(RULES_CC_MASTER_COMMIT)],
+)
+
+# CONFIGURE RULES RUST ########################################################
+
+# Note: As of 2019-09-02, the `rules_rust` README says that the project is under
+# active development and recommends that the `master` branch should be used.
+
+# Master Commit from 2019-08-30:
+RULES_RUST_MASTER_COMMIT="f727669b8ac3c9d237ed9bc7833b8e1eeec90506"
+RULES_RUST_MASTER_SHA256="019958e96fcb9d8b5e5f74f31ad58f9c59804e8c04cf5aae03b983001edc79e0"
+
+http_archive(
+    name = "io_bazel_rules_rust",
+    sha256 = RULES_RUST_MASTER_SHA256,
+    strip_prefix = "rules_rust-{}".format(RULES_RUST_MASTER_COMMIT),
+    url = "https://github.com/bazelbuild/rules_rust/archive/{}.tar.gz".format(RULES_RUST_MASTER_COMMIT),
+)
+
+# Run the bazel version check that comes with `rules_rust`:
+load("@io_bazel_rules_rust//:workspace.bzl", "bazel_version")
+bazel_version(name = "bazel_version")
+
+# A workaround to help `rust_bindgen_library` find `libstdc++.so` on ArchLinux.
+load(":local_libstdcpp_for_arch.bzl", "add_local_libstdcpp_repository")
+add_local_libstdcpp_repository()
+
+load("@io_bazel_rules_rust//rust:repositories.bzl", "rust_repositories")
+rust_repositories()
+
+load("@io_bazel_rules_rust//bindgen:repositories.bzl", "rust_bindgen_repositories")
+rust_bindgen_repositories()

@@ -1,0 +1,41 @@
+load("@bazel_tools//tools/jdk:default_java_toolchain.bzl", "java_runtime_files")
+
+java_runtime_files(
+    name = "jni_header_file",
+    srcs = ["include/jni.h"],
+)
+
+java_runtime_files(
+    name = "jni_md_linux_header_file",
+    srcs = ["include/linux/jni_md.h"],
+)
+
+java_runtime_files(
+    name = "jvmti_header_file",
+    srcs = ["include/jvmti.h"],
+)
+
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "jvmti_headers",
+    hdrs = [":jvmti_header_file"],
+    deps = [":jni_headers"],
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)
+
+# TODO(dwtj): Make this portable.
+cc_library(
+    name = "jni_md_headers",
+    hdrs = [":jni_md_linux_header_file"],
+    strip_include_prefix = "include/linux",
+)
+
+cc_library(
+    name = "jni_headers",
+    hdrs = [":jni_header_file"],
+    deps = [":jni_md_headers"],
+    strip_include_prefix = "include",
+    visibility = ["//visibility:public"],
+)

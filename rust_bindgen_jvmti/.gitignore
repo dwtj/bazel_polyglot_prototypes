@@ -1,0 +1,4 @@
+bazel-bin
+bazel-out
+bazel-rust_bindgen_openjdk_headers
+bazel-testlogs
