@@ -1,0 +1,7 @@
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+cc_binary(
+    name = "hello_jvmti",
+    srcs = ["hello_jvmti.cc"],
+    deps = ["//third_party/openjdk:jvmti_headers"],
+)

@@ -1,0 +1,19 @@
+workspace(name = "cc_openjdk_headers")
+
+# RULES FOR GETTING EXTERNAL DEPENDENCIES #####################################
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+# CONFIGURE RULES_CC ##########################################################
+
+# Master Commit as of 2019-09-19:
+RULES_CC_MASTER_COMMIT = "42ed56d8acbd9938b4ee8b2066d2c4c898a22504"
+
+RULES_CC_MASTER_SHA256 = "7c574de35acdbfd333eb3f8eb05990b377ef8dc2303664f4ddd6cc83bbf4a30a"
+
+http_archive(
+    name = "rules_cc",
+    sha256 = RULES_CC_MASTER_SHA256,
+    strip_prefix = "rules_cc-{}".format(RULES_CC_MASTER_COMMIT),
+    urls = ["https://github.com/bazelbuild/rules_cc/archive/{}.tar.gz".format(RULES_CC_MASTER_COMMIT)],
+)
